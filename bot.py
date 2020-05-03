@@ -1,10 +1,10 @@
 import discord
 import asyncio
-import requests
-from bs4 import BeautifulSoup
-from time import sleep
-from selenium import webdriver
 import private
+import json
+import urllib.request
+from urllib import parse
+import requests
 
 client = discord.Client()
 
@@ -17,34 +17,32 @@ async def on_message(message):
     '카벙클' : 'carbuncle',
     '톤베리' : 'tonberry'
     }
-    print(message)
     print(message.content)
     if message.content.startswith('/ff'):
         msg = message.content.split()
-        lc = 'https://ko.fflogs.com/character/kr/{}/{}'.format(server[msg[1]], msg[2])
-        await message.channel.send(lc)
 
-        driver = webdriver.Firefox()
-        # driver.implicitly_wait(1)
-        driver.get(lc)
-        # sleep(1)
-
-        h = driver.page_source
-
-        soup = BeautifulSoup(h, 'html.parser')
-        avg = soup.find("div", {"class" : 'best-perf-avg'})
-        avg = avg.find('b')
-
-        allavg = avg.text
-        avg = soup.find_all("td", {"class" : 'hist-cell'})
+        out = []
         
-        print(allavg)
-        allavg = allavg.replace("\n\t", "]\n")
-        li = []
-        for i in avg:
-            li.append(i.text.replace("\n\n", "\n"))
+        lc ="https://www.fflogs.com:443/v1/parses/character/{}/{}/KR".format(msg[2], server[msg[1]])
+        param = {
+            'api_key' : private.ffkey,
+            'metric' : "rdps",
+            'zone' : 29,
 
-        await message.channel.send('```[전체: {}1층: {}2층: {}3층: {}4층: {}```'.format(allavg, li[0], li[1], li[2], li[3]))
+        }
+        urlopen = requests.get(lc, params = param)
+        js = json.loads(urlopen.text)
+
+        cnt = 65
+        for i in js:
+            if cnt == i['encounterID'] and 101 == i['difficulty']:
+                out.append(i['percentile'])
+                cnt += 1
+        
+        while len(out) != 4:
+            out.append("None")
+
+        await message.channel.send('```1층: {}\n2층: {}\n3층: {}\n4층: {}```'.format(out[0], out[1], out[2], out[3]))
 
 client.run(private.key)
 
