@@ -22,6 +22,7 @@ async def on_message(message):
         msg = message.content.split()
 
         out = []
+        cl = []
         
         lc ="https://www.fflogs.com:443/v1/parses/character/{}/{}/KR".format(msg[2], server[msg[1]])
         param = {
@@ -37,12 +38,13 @@ async def on_message(message):
         for i in js:
             if cnt == i['encounterID'] and 101 == i['difficulty']:
                 out.append(i['percentile'])
+                cl.append(i['spec'])
                 cnt += 1
         
         while len(out) != 4:
             out.append("None")
 
-        await message.channel.send('```1층: {}\n2층: {}\n3층: {}\n4층: {}```'.format(out[0], out[1], out[2], out[3]))
+        await message.channel.send('```[1. {}]\n{}\n[2. {}]\n{}\n[3. {}]\n{}\n[4. {}]\n{}```'.format(cl[0], out[0],cl[1], out[1],cl[2], out[2],cl[3] out[3]))
 
 client.run(private.key)
 
