@@ -65,6 +65,7 @@ async def on_message(message):
         
         while len(out) != 4:
             out.append("None")
+            cl.append("None")
 
         await message.channel.send('```[1. {}]\n{}\n[2. {}]\n{}\n[3. {}]\n{}\n[4. {}]\n{}```'.format(cl[0], out[0],cl[1], out[1],cl[2], out[2],cl[3], out[3]))
 
