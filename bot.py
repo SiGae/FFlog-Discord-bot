@@ -50,6 +50,7 @@ async def on_message(message):
             'api_key' : private.ffkey,
             'metric' : "rdps",
             'zone' : 29,
+            'timeframe' : 'historical'
 
         }
         urlopen = requests.get(lc, params = param)
