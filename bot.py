@@ -154,8 +154,8 @@ async def on_message(message):
     '톤베리' : 'tonberry'
     }
     print(message.content)
-
-    if message.content.startswith('/ff'):
+    tempsmg = message.content.split()
+    if tempsmg[0] == "/ff":
         msg = message.content.split()
         workString = Alexander(message.content, job, server)
         print(workString) 
@@ -169,7 +169,7 @@ async def on_message(message):
 
         await message.channel.send('```\n각영\n{}\n```'.format(workString))
 
-    if message.content.startswith('/ffua'):
+    if tempsmg[0] == "/ffua":
         msg = message.content.split()
         workString = Alexander(message.content, job, server)
         print(workString) 
@@ -177,13 +177,15 @@ async def on_message(message):
 
         await message.channel.send('```\n{}\n```'.format(workString))
 
-    if message.content.startswith('/ffeg'):
+    if tempsmg[0] == "/ffeg":
 
         workString = edenAwake(message.content, job, server)
         print(workString) 
 
 
         await message.channel.send('```\n{}\n```'.format(workString))
+
+
 
 client.run(private.key)
 
