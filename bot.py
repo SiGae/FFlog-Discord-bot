@@ -16,7 +16,7 @@ def SliceByLayer(rawData):
     layer = []
     cnt = -1
     for i in rawData:
-        if i['difficulty'] == 101 or i['difficulty'] == 100:
+        if i['difficulty'] == 101 or i['encounterID'] == 1050:
             layer.append({
                 'encounterID' : i['encounterID'],
                 'spec' : i['spec'],
