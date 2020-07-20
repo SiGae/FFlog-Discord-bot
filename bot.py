@@ -155,7 +155,7 @@ async def on_message(message):
     }
     print(message.content)
 
-    if message.content.startswith('/ffall'):
+    if message.content.startswith('/ff'):
         msg = message.content.split()
         workString = Alexander(message.content, job, server)
         print(workString) 
